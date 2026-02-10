@@ -8,7 +8,7 @@
 
 void PlayerMovement::KeyDirControl()
 {
-	// MoveDir°ú LookDirÀ» Å°º¸µå ÀÔ·Â°ªÀ¸·Î ¼³Á¤ÇÑ´Ù
+	// MoveDirê³¼ LookDirì„ í‚¤ë³´ë“œ ì…ë ¥ê°’ìœ¼ë¡œ ì„¤ì •í•œë‹¤
 
 	const float xInupt = InputManager::GetInstance()->GetAxisRaw("Horizontal");
 	const float yInupt = InputManager::GetInstance()->GetAxisRaw("Vertical");
@@ -16,11 +16,11 @@ void PlayerMovement::KeyDirControl()
 	m_MoveDir = { xInupt, yInupt };
 	m_MoveDir.Normalize();
 
-	// ¸¶Áö¸· LookDirÀ» º¸°üÇÏ´Â ¹æ¹ı??
+	// ë§ˆì§€ë§‰ LookDirì„ ë³´ê´€í•˜ëŠ” ë°©ë²•??
 
 	const framework::Vector2D vec = { xInupt, yInupt };
 
-	// ÀÔ·ÂÀÌ ÀÖÀ»¶§¸¸ LookDirÀ» ¼³Á¤ÇÑ´Ù
+	// ì…ë ¥ì´ ìˆì„ë•Œë§Œ LookDirì„ ì„¤ì •í•œë‹¤
 	if(vec.Length() >= 0.1f)
 		m_LookDir = { xInupt, yInupt };
 
@@ -35,29 +35,29 @@ void PlayerMovement::TotalDirControl(int controllerIndex)
 
 void PlayerMovement::MoveDirControl(int controllerIndex)
 {
-	// ÀÌÀü ÀÌµ¿ ¹æÇâÀ» ±â·Ï
+	// ì´ì „ ì´ë™ ë°©í–¥ì„ ê¸°ë¡
 	m_PrevMoveDir = m_MoveDir;
 
-	// ÀÌµ¿ ¹æÇâ ÃÊ±âÈ­
+	// ì´ë™ ë°©í–¥ ì´ˆê¸°í™”
 	m_MoveDir = { 0.f, 0.f };
 
-	// ¿ŞÂÊ / ¿À¸¥ÂÊ ½ºÆ½ ÀÔ·Â°ª
+	// ì™¼ìª½ / ì˜¤ë¥¸ìª½ ìŠ¤í‹± ì…ë ¥ê°’
 	const framework::Vector2D rawThumbLeft = InputManager::GetPadAxisLeftThumb(controllerIndex);
 	const framework::Vector2D rawThumbRight = InputManager::GetPadAxisRightThumb(controllerIndex);
 
-	// º¸Á¤µÈ ¿ŞÂÊ ½ºÆ½ ÀÔ·Â°ª
+	// ë³´ì •ëœ ì™¼ìª½ ìŠ¤í‹± ì…ë ¥ê°’
 	framework::Vector2D thumbLeft = { max(-1, rawThumbLeft.x), max(-1, (-1) * rawThumbLeft.y) };
 
-	// ÀÔ·Â°ª¿¡ µû¸¥ ÀÌµ¿ ¹æÇâ ¼³Á¤
+	// ì…ë ¥ê°’ì— ë”°ë¥¸ ì´ë™ ë°©í–¥ ì„¤ì •
 	m_MoveDir = { thumbLeft.x, thumbLeft.y };
 
-	// ÀÌµ¿ ¹æÇâÀÇ ´ÜÀ§ º¤ÅÍ¸¦ ±¸ÇÑ´Ù
+	// ì´ë™ ë°©í–¥ì˜ ë‹¨ìœ„ ë²¡í„°ë¥¼ êµ¬í•œë‹¤
 	m_MoveDir.Normalize();
 
-	// ¿À¸¥ÂÊ ½ºÆ½ÀÇ ÀÔ·Â°ªÀÌ ¾ø´Â °æ¿ì ÀÌµ¿ ¹æÇâÀ» ¹Ù¶óº¸´Â ¹æÇâÀ¸·Î ¼³Á¤ÇÑ´Ù
+	// ì˜¤ë¥¸ìª½ ìŠ¤í‹±ì˜ ì…ë ¥ê°’ì´ ì—†ëŠ” ê²½ìš° ì´ë™ ë°©í–¥ì„ ë°”ë¼ë³´ëŠ” ë°©í–¥ìœ¼ë¡œ ì„¤ì •í•œë‹¤
 	if (rawThumbRight.x == 0.f || rawThumbRight.y == 0.f)
 	{
-		// ÀÌµ¿ ¹æÇâÀÌ ¾ø´Â °æ¿ì¿¡¸¸ ¹Ù¶óº¸´Â ¹æÇâÀ¸·Î ¼³Á¤ÇÑ´Ù (ÀÚµ¿À¸·Î ÀÌµ¿¹æÇâ ¾øÀ¸¸é ¹Ù¶óº¸´Â ¹æÇâÀº ÀÌÀü ¹Ù¶óº¸´Â ¹æÇâÀ¸·Î ¼³Á¤µÊ)
+		// ì´ë™ ë°©í–¥ì´ ì—†ëŠ” ê²½ìš°ì—ë§Œ ë°”ë¼ë³´ëŠ” ë°©í–¥ìœ¼ë¡œ ì„¤ì •í•œë‹¤ (ìë™ìœ¼ë¡œ ì´ë™ë°©í–¥ ì—†ìœ¼ë©´ ë°”ë¼ë³´ëŠ” ë°©í–¥ì€ ì´ì „ ë°”ë¼ë³´ëŠ” ë°©í–¥ìœ¼ë¡œ ì„¤ì •ë¨)
 		if (m_MoveDir != framework::Vector2D::Zero())
 			m_LookDir = m_MoveDir;
 	}
@@ -65,51 +65,50 @@ void PlayerMovement::MoveDirControl(int controllerIndex)
 
 void PlayerMovement::LookDirControl(int controllerIndex)
 {
-	// ¿À¸¥ÂÊ ½ºÆ½ ÀÔ·Â°ª
+	// ì˜¤ë¥¸ìª½ ìŠ¤í‹± ì…ë ¥ê°’
 	const framework::Vector2D rawThumbRight = InputManager::GetPadAxisRightThumb(controllerIndex);
 
-	// º¸Á¤µÈ ¿À¸¥ÂÊ ½ºÆ½ÀÇ ÀÔ·Â°ª
+	// ë³´ì •ëœ ì˜¤ë¥¸ìª½ ìŠ¤í‹±ì˜ ì…ë ¥ê°’
 	framework::Vector2D thumbRight = { max(-1, rawThumbRight.x), max(-1, (-1) * rawThumbRight.y) };
 
-	// ¿À¸¥ÂÊ ½ºÆ½¿¡ ÀÔ·Â°ªÀÌ ÀÖ´Â °æ¿ì¿¡¸¸ ¹æÇâÀ» ¹Ù²ãÁØ´Ù
+	// ì˜¤ë¥¸ìª½ ìŠ¤í‹±ì— ì…ë ¥ê°’ì´ ìˆëŠ” ê²½ìš°ì—ë§Œ ë°©í–¥ì„ ë°”ê¿”ì¤€ë‹¤
 	if (thumbRight.x != 0.f || thumbRight.y != 0.f)
 		m_LookDir = { thumbRight.x, thumbRight.y };
 
-	// ¹Ù¶óº¸´Â ¹æÇâÀÇ ´ÜÀ§ º¤ÅÍ¸¦ ±¸ÇÑ´Ù
+	// ë°”ë¼ë³´ëŠ” ë°©í–¥ì˜ ë‹¨ìœ„ ë²¡í„°ë¥¼ êµ¬í•œë‹¤
 	m_LookDir.Normalize();
 }
 
 void PlayerMovement::PlayerMove(float deltaTime)
 {
-	/// ÀÔ·Â ¹æÇâÀÌ ¹Ù²î¸é »¡¸® ¹İ´ë·Î °¥ ¼ö ÀÖµµ·Ï
-	if (std::signbit(m_PrevMoveDir.x * m_MoveDir.x))
+	/// ê°€ì†ë„ (ì†ë„ì˜ ë³€í™”ìœ¨) ê³„ì‚°
+	m_OriginalAccel = m_MoveDir * m_OriginalAccelSpeed * m_ReverseCoefficient;
+
+	/// ì…ë ¥ ë°©í–¥ì´ ë°”ë€Œë©´ ë¹¨ë¦¬ ë°˜ëŒ€ë¡œ ê°ˆ ìˆ˜ ìˆë„ë¡
+	if (m_PrevMoveDir.x * m_MoveDir.x < 0.f)
 		m_OriginalVelocity.x = 0.f;
-	if (std::signbit(m_PrevMoveDir.y * m_MoveDir.y))
+	if (m_PrevMoveDir.y * m_MoveDir.y < 0.f)
 		m_OriginalVelocity.y = 0.f;
 
-	/// °¡¼Óµµ (¼ÓµµÀÇ º¯È­À²) °è»ê
-	m_OriginalAccel =  m_MoveDir * m_OriginalAccelSpeed * m_ReverseCoefficient;			// ÀÔ·Â°ª¿¡ µû¸¥ ¿À¸®Áö³Î °¡¼Óµµ
-	m_TotalAccel = m_OriginalAccel + m_ExternalAccel;									// ¿À¸®Áö³Î °¡¼Óµµ + ¿ÜºÎ °¡¼Óµµ = ÃÖÁ¾ °¡¼Óµµ
+	/// ì†ë„ (ìœ„ì¹˜ì˜ ë³€í™”ìœ¨) ê³„ì‚° - Originalê³¼ External ë¶„ë¦¬ ì ìš©
+	m_OriginalVelocity += m_OriginalAccel * deltaTime;
+	m_ExternalVelocity += m_ExternalAccel * deltaTime;
 
-	/// ¼Óµµ (À§Ä¡ÀÇ º¯È­À²) °è»ê
-	m_OriginalVelocity += m_TotalAccel * deltaTime;										// ¼Óµµ = ¼Óµµ + °¡¼Óµµ * ½Ã°£
+	// Velocity Limit
+	m_OriginalVelocity.Limit(m_OriginalVelocityLimit);
+	m_ExternalVelocity.Limit(m_ExternalVelocityLimit);
 
-	// m_OriginalVelocity Limit
-	m_OriginalVelocity.Limit(m_OriginalVelocityLimit);									// ¿À¸®Áö³Î ¼Óµµ Á¦ÇÑ
-
-	// m_ExternalVelocity Limit
-	m_ExternalVelocity.Limit(m_ExternalVelocityLimit);									// ¿ÜºÎ ¼Óµµ Á¦ÇÑ
-
-	m_TotalVelocity = m_OriginalVelocity + m_ExternalVelocity;							// ¿À¸®Áö³Î ¼Óµµ + ¿ÜºÎ ¼Óµµ = ÃÖÁ¾ ¼Óµµ
-
-	// ÀÌµ¿ ÀÔ·Â ¾øÀ¸¸é ¸¶Âû·Â ÀÛ¿ë
+	// ì´ë™ ì…ë ¥ ì—†ìœ¼ë©´ ë§ˆì°°ë ¥ ì‘ìš©
 	if (m_MoveDir == framework::Vector2D::Zero())
 		OriginalFriction(deltaTime);
 
-	// ¿ÜºÎ ¼Óµµ¿¡ ´ëÇÑ ¸¶Âû·ÂÀº Ç×½Ã ÀÛµ¿
+	// ì™¸ë¶€ ì†ë„ì— ëŒ€í•œ ë§ˆì°°ë ¥ì€ í•­ì‹œ ì‘ë™
 	ExternalFriction(deltaTime);
 
-	// º¯È­µÇ´Â ¼Óµµ·Î ÇÃ·¹ÀÌ¾î¸¦ ÀÌµ¿
+	// ë§ˆì°°ë ¥ ì ìš© í›„ TotalVelocity ê³„ì‚°
+	m_TotalVelocity = m_OriginalVelocity + m_ExternalVelocity;
+
+	// ë³€í™”ë˜ëŠ” ì†ë„ë¡œ í”Œë ˆì´ì–´ë¥¼ ì´ë™
 	m_pOwner->GetRootComponent()->AddRelativeLocation(m_TotalVelocity * deltaTime);
 }
 
@@ -158,16 +157,16 @@ void PlayerMovement::ReverseMove()
 
 void PlayerMovement::Update(const float deltaTime)
 {
-	// È°¼ºÈ­ »óÅÂ ¾Æ´Ï¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù
+	// í™œì„±í™” ìƒíƒœ ì•„ë‹ˆë©´ ì•„ë¬´ê²ƒë„ í•˜ì§€ ì•ŠëŠ”ë‹¤
 	if (!m_IsActive)
 		return;
 
-	// 1P ~ 4P±îÁöÀÇ ÄÁÆ®·Ñ·¯ ÀÔ·ÂÀ» ¹Ş¾Æ¿Â´Ù
+	// 1P ~ 4Pê¹Œì§€ì˜ ì»¨íŠ¸ë¡¤ëŸ¬ ì…ë ¥ì„ ë°›ì•„ì˜¨ë‹¤
 	if (m_pOwner->GetName() == L"Player1")
 	{
 		TotalDirControl(0);
 
-		// ÄÁÆ®·Ñ·¯°¡ ¿¬°áµÇ¾î ÀÖÁö¸¸, ¿ŞÂÊ ½ºÆ½°ú ¿À¸¥ÂÊ ½ºÆ½ ¸ğµÎ ÀÔ·ÂÀÌ ¾ø´Â °æ¿ì¿¡ Å°º¸µå·Î ½ÇÇà
+		// ì»¨íŠ¸ë¡¤ëŸ¬ê°€ ì—°ê²°ë˜ì–´ ìˆì§€ë§Œ, ì™¼ìª½ ìŠ¤í‹±ê³¼ ì˜¤ë¥¸ìª½ ìŠ¤í‹± ëª¨ë‘ ì…ë ¥ì´ ì—†ëŠ” ê²½ìš°ì— í‚¤ë³´ë“œë¡œ ì‹¤í–‰
 		if((InputManager::GetPadAxisLeftThumb(0).Length() < 0.001f) && (InputManager::GetPadAxisRightThumb(0).Length() < 0.001f))
 		{
 			KeyDirControl();
@@ -182,7 +181,7 @@ void PlayerMovement::Update(const float deltaTime)
 
 	PlayerMove(deltaTime);
 
-	/// Transition¿¡ Á¤º¸ Àü´Ş
+	/// Transitionì— ì •ë³´ ì „ë‹¬
 	const framework::EVENT_MOVEMENT_INFO movementInfo = { m_MoveDir, m_LookDir };
 
 	if (m_pOwner->GetName() == L"Player1")
