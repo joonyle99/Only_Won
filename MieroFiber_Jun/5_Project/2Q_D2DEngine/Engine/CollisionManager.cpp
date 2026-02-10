@@ -87,7 +87,7 @@ void CollisionManager::CollisionGroupUpdate(const std::vector<GameObject*>& this
 					colliderID.right_ID = otherCollider->GetID();
 
 					// 충돌체의 ID를 찾는다
-					std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const unsigned long long, bool>>>> iter = m_mapCollisionInfo.find(colliderID.ID);
+					auto iter = m_mapCollisionInfo.find(colliderID.ID);
 
 					// 충돌 ID가 없으면 새로 생성
 					if (m_mapCollisionInfo.end() == iter)

@@ -4,7 +4,7 @@
 
 #include <list>
 #include <vector>
-#include <map>
+#include <unordered_map>
 
 class Collider2D;
 class World;
@@ -34,6 +34,6 @@ private:
 	void CollisionGroupUpdate(const std::vector<GameObject*>& thisGroup, const std::vector<GameObject*>& otherGroup, float deltaTime);
 
 private:
-	std::map<ULONGLONG, bool> m_mapCollisionInfo;
+	std::unordered_map<ULONGLONG, bool> m_mapCollisionInfo;
 	bool m_CollCheckArr[static_cast<UINT>(GROUP_TYPE::END)][static_cast<UINT>(GROUP_TYPE::END)] = {};
 };
